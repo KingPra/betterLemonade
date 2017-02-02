@@ -1,0 +1,21 @@
+/* Include Foundation */
+@import 'node_modules/foundation-sites/scss/foundation';
+
+@include foundation-global-styles;
+@include foundation-grid;
+
+body {
+    background-color: grey;
+}
+
+button {
+    background-color: white;
+    padding: 5px;
+}
+
+.infoView {
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+    display: inline-block;
+}

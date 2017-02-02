@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>  
+        <title>Lemonade</title>
+        <!--add css file-->
+        <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <!-- plz copy this... -->
+    <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="Lemonade">
+        <h1>Lemonade</h1>
+        <nav>
+            <ul>
+                <li><a ui-sref="create-stand">New Game</a></li>
+                <li><a ui-sref="stand-info">Stand Info</a></li>
+                <li><a ui-sref="supplies">supplies</a></li>
+                <li><a ui-sref="high-score">High Scores</a></li>
+            </ul>
+        </nav>
+        <!--create new stand section-->
+        <ui-view></ui-view>
+    </body>
+</html>
