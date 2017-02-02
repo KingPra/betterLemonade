@@ -1,6 +1,7 @@
 <section>
     <h1>High Scores</h1>
     <ul ng-repeat="score in scores | orderBy: '-business.total_visitors'">
+        <li>Name: {{ score.name }}</li> 
         <li>total visitors: {{score.business.total_visitors }}</li>
         <li>cups sold:{{ score.business.total_cups_sold }}</li>
     </ul>
