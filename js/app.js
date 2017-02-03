@@ -10,7 +10,18 @@ app.controller(infoStand.name, infoStand.func);
 let allScores = require('./controller/highScores')
 app.controller(allScores.name, allScores.func);
 
+let supplies = require('./controller/supplies')
+app.controller(supplies.name, supplies.func);
 
+
+let createStand = require('./components/createStand')
+app.component(createStand.name, createStand.object);
+
+let standInfo = require('./components/standInfo')
+app.component(standInfo.name, standInfo.object);
+
+// let highScores = require('./components/highScores')
+// app.component(highScores.name, highScores.object);
 
 // const controllers = [
 //     require('./controllers/CreateStandController')
@@ -56,35 +67,40 @@ app.config(function ($stateProvider) {
 //     console.log(stand);
 // });
 
-app.controller('SuppliesController', function ($scope) {
-    console.log('we need all the lemons!');
-    $scope.cost = 0;
-    $scope.setPrice = function (cost) {
-        console.log(`${cost} per cup`);
-    };
+// app.controller('SuppliesController', function ($scope) {
+//     console.log('we need all the lemons!');
+//     $scope.cost = 0;
+//     $scope.setPrice = function (cost) {
+//         console.log(`${cost} per cup`);
+//     };
 
-});
+// });
 
 
-app.component('createStand', {
-    controller: 'CreateStandController',
-    templateUrl:'templates/createstand.html',
-});
+// app.component('createStand', {
+//     controller: 'CreateStandController',
+//     templateUrl:'templates/createstand.html',
+// });
 
-app.component('standInfo', {
-    controller: 'StandInfoController', 
-    templateUrl: 'templates/stand-info.html',
-});
+// app.component('standInfo', {
+//     controller: 'StandInfoController', 
+//     templateUrl: 'templates/stand-info.html',
+// });
 
-app.component('highScore', {
-    controller: 'HighScoresController',
-    templateUrl: 'templates/high-score.html',
-});
+// app.component('highScore', {
+//     controller: 'HighScoresController',
+//     templateUrl: 'templates/high-score.html',
+// });
 
-app.component('supplies', {
-    controller: 'SuppliesController',
-    templateUrl: 'templates/supplies.html',
-});
+// app.component('supplies', {
+//     controller: 'SuppliesController',
+//     templateUrl: 'templates/supplies.html',
+// });
+
+// app.component('buy', {
+//     controller: 'buyController',
+//     templateUrl: 'templates/supplies.html',
+// });
 
 
 app.factory('CreateStandService', function ($http) {
@@ -113,7 +129,7 @@ app.factory('SuppliesService', function ($http) {
  console.log('next 2 lines are from Supplies Service')
  console.log(stand);
  console.log(stats);
- $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/fb6b83b1-e7ac-4730-ab6b-a0d46e34bf04`)
+ $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/51eb84f6-df8b-4e40-9b74-1fce5f06e1d4`)
  .then(function (response) {
      angular.copy(response.data, stats);
 
@@ -145,7 +161,8 @@ app.factory('WeatherService', function ($http) {
 
 app.factory('HighScoresService', function ($http) {
     let scores = [];
-    $http.get('https://blooming-hamlet-70507.herokuapp.com/stand/top').then(function (response) {
+    $http.get('https://blooming-hamlet-70507.herokuapp.com/stand/top')
+    .then(function (response) {
       angular.copy(response.data, scores);
   });
     return {
@@ -154,3 +171,10 @@ app.factory('HighScoresService', function ($http) {
         },
     }
 });
+
+// app.factory('BuyService', function ($http) {
+//     let supplies = [];
+//     $http.post('https://blooming-hamlet-70507.herokuapp.com/stand/update?id=51eb84f6-df8b-4e40-9b74-1fce5f06e1d4', {
+        
+//     }).then
+// })
