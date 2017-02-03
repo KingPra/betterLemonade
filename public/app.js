@@ -5,8 +5,13 @@ const app = angular.module('Lemonade', ['ui.router']);
 let newStand = require('./controller/createStand')
 app.controller(newStand.name, newStand.func);
 
+let infoStand = require('./controller/standInfo')
+app.controller(infoStand.name, infoStand.func);
+
 let allScores = require('./controller/highScores')
 app.controller(allScores.name, allScores.func);
+
+
 
 // const controllers = [
 //     require('./controllers/CreateStandController')
@@ -46,11 +51,11 @@ app.config(function ($stateProvider) {
 
 
 
-app.controller('StandInfoController', function ($scope, CreateStandService) {
-    let stand = CreateStandService.getId();
-    console.log('info controller kicked in');
-    console.log(stand);
-});
+// app.controller('StandInfoController', function ($scope, CreateStandService) {
+//     let stand = CreateStandService.getId();
+//     console.log('info controller kicked in');
+//     console.log(stand);
+// });
 
 app.controller('SuppliesController', function ($scope) {
     console.log('we need all the lemons!');
@@ -105,18 +110,38 @@ app.factory('CreateStandService', function ($http) {
 
 app.factory('SuppliesService', function ($http) {
  let stats = [];
+ let standId = null;
  console.log('next 2 lines are from Supplies Service')
  console.log(stand);
  console.log(stats);
- $http.post(`https://https://blooming-hamlet-70507.herokuapp.com//stand/update?id= ${stand}`)
-    .then(function (response) {
+ $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/fb6b83b1-e7ac-4730-ab6b-a0d46e34bf04`)
+ .then(function (response) {
      angular.copy(response.data, stats);
+
  });
  return{
-     getStats: function () {
+     newId: function (id) {
+        standId = id;
+        console.log(`supplies service newID function running : ${id}`); 
+     },
+     showStats: function () {
          return stats;
      },
  }
+});
+
+app.factory('WeatherService', function ($http) {
+    let weather = [];
+    console.log(weather);
+    $http.get(`https://blooming-hamlet-70507.herokuapp.com/weather/forecast`)
+    .then(function (response) {
+        angular.copy(response.data, weather);
+    });
+    return {
+        getWeather: function () {
+            return weather;
+        },
+    }
 });
 
 app.factory('HighScoresService', function ($http) {
@@ -130,7 +155,7 @@ app.factory('HighScoresService', function ($http) {
         },
     }
 });
-},{"./controller/createStand":2,"./controller/highScores":3}],2:[function(require,module,exports){
+},{"./controller/createStand":2,"./controller/highScores":3,"./controller/standInfo":4}],2:[function(require,module,exports){
 module.exports = {
     name: 'CreateStandController',
     func: function ($scope, CreateStandService) {
@@ -151,5 +176,22 @@ module.exports = {
   console.log('high scores controller firing off')
 
     }
+};
+},{}],4:[function(require,module,exports){
+module.exports = {
+    name: 'StandInfoController',
+    func: function ($scope, CreateStandService, SuppliesService, WeatherService) {
+    let stand = CreateStandService.getId();
+    $scope.stats = SuppliesService.showStats();
+    $scope.sun = WeatherService.getWeather();
+    let temp = $scope.sun;
+    console.log(`stand info controller should print stat array:`);
+    console.log(temp);
+    console.log($scope.stats);
+    SuppliesService.newId(stand);
+    console.log('info controller kicked in');
+    console.log(stand);
+    }
+
 };
 },{}]},{},[1]);

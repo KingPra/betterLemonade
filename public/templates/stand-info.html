@@ -1,27 +1,33 @@
 <section>
             <h1>manage stand</h1>
-            <div class="infoView">
-                <h1>Days</h1>
-                <p>0</p>
-            </div>
-            <div class="infoView">
-                <h1>open/closed</h1>
-                <p>open</p>
-            </div>
-            <div class="infoView">
-                <h1>Funds</h1>
-                <p>$5M</p>
-            </div>
-            <div class="infoView">
-                <h1>Cost of Lemonade:</h1>
-                <p>$5.00</p>
-            </div>
-             <div class="infoView">
-                <h1>Visitors/ Cups Sold</h1>
-                <p>700/ 698</p>
-            </div>
-            <div class="infoView">
-                <h1>Tomorrow's weather</h1>
-                <p>Sunny 90F</p>
-            </div>
+                <p>test: {{stats.business}}</p>
+                    <p></p>
+                <div class="infoView">
+                    <h1>BBB rating: </h1>
+                    <p>{{ stats.business.rating }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>Days</h1>
+                    <p>{{ stats.day }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>open/closed</h1>
+                    <p>{{ stats.name }} in business: {{ stats.in_business }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>Funds</h1>
+                    <p>{{ stats.business.balance | currency }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>Cost of Lemonade:</h1>
+                    <p>{{ stats.business.price | currency }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>Visitors/ Cups Sold</h1>
+                    <p>{{ stats.business.yesterday_visitors }} / {{ stats.business.yesterday_cups_sold }}</p>
+                </div>
+                <div class="infoView">
+                    <h1>Tomorrow's weather</h1>
+                    <p>{{ sun.condition }} {{ sun.temperature }}</p>
+                </div>
         </section>
