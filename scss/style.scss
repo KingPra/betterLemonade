@@ -13,9 +13,14 @@ button {
     padding: 5px;
 }
 
+ul {
+    list-style: none;
+}
+
 .infoView {
+    text-align: center;
     width: 250px;
-    height: 250px;
+    height: 170px;
     border: 1px solid black;
     display: inline-block;
 }

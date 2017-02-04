@@ -5,6 +5,6 @@ module.exports = {
         $scope.cost = 0;
         $scope.setPrice = function (cost) {
         console.log(`${cost} per cup`);
-        },
-    }
+        }
+    },
 };
