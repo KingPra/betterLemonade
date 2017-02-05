@@ -2,6 +2,8 @@ module.exports = {
     name: 'SuppliesService',
     func: function ($http) {
         let statsUp = [];
+        let business = [];
+        let ingredients = [];
         let standId = null; 
         
         return {
@@ -17,11 +19,13 @@ module.exports = {
                         add: 0,
                     })
                     .then(function (response) {
-                    statsUp = response.data;
+                    angular.copy(response.data, statsUp);
+                    angular.copy(response.data.business, business);
+                    angular.copy(response.ingredients, ingredients );
                     console.log(`data update:`);
-                    console.log(statsUp);
+                    console.log(business);
                     console.log('end of data update');
-                    //return statsUp;
+                    return statsUp;
                     });
                  
                 

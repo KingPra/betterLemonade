@@ -5,3 +5,5 @@ module.exports = {
     templateUrl: 'templates/stand-info.html',
     },
 };
+
+// might not need this

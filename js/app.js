@@ -35,32 +35,16 @@ for (let i = 0; i < services.length; i++) {
     app.factory(services[i].name, services[i].func)
 };
 
-/** routers */
-console.log(`app config `);
-app.config(function ($stateProvider) {
-    $stateProvider.state({
-        name: 'create-stand',
-        url: '/createstand',
-        component: 'createStand',
-    });
 
-    $stateProvider.state({
-        name: 'stand-info',
-        url: '/stand-info',
-        component: 'standInfo',
-    });
 
-    $stateProvider.state({
-        name: 'high-score',
-        url: '/high-score',
-        component: 'highScore',
-    });
 
-    $stateProvider.state({
-        name: 'supplies',
-        url: '/supplies',
-        component: 'supplies',
-    });
+const routers = require('./routers');
+
+app.config($stateProvider => {
+    for (let i = 0; i < routers.length; i++) {
+        $stateProvider.state(routers[i]);
+    }
 });
+
 
 

@@ -12,7 +12,7 @@ module.exports = {
                 })
             },
             getId: function () {
-                return '5fdb549f-9143-43b4-ad72-ae890c7ff389';
+                return '74256647-704e-45a4-86a8-4aa015cad422';
                 //return standIdentification;
             },
         }

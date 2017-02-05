@@ -1254,7 +1254,18 @@ button {
         margin-bottom: 0; } }
 
 body {
+  width: 100%;
+  float: left;
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
+  text-align: center;
   background-color: grey; }
+  @media print, screen and (min-width: 40em) {
+    body {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+  body:last-child:not(:first-child) {
+    float: right; }
 
 button {
   background-color: white;

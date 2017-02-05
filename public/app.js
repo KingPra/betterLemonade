@@ -36,37 +36,21 @@ for (let i = 0; i < services.length; i++) {
     app.factory(services[i].name, services[i].func)
 };
 
-/** routers */
-console.log(`app config `);
-app.config(function ($stateProvider) {
-    $stateProvider.state({
-        name: 'create-stand',
-        url: '/createstand',
-        component: 'createStand',
-    });
 
-    $stateProvider.state({
-        name: 'stand-info',
-        url: '/stand-info',
-        component: 'standInfo',
-    });
 
-    $stateProvider.state({
-        name: 'high-score',
-        url: '/high-score',
-        component: 'highScore',
-    });
 
-    $stateProvider.state({
-        name: 'supplies',
-        url: '/supplies',
-        component: 'supplies',
-    });
+const routers = require('./routers');
+
+app.config($stateProvider => {
+    for (let i = 0; i < routers.length; i++) {
+        $stateProvider.state(routers[i]);
+    }
 });
 
 
 
-},{"./components/createStand":2,"./components/highScores":3,"./components/standInfo":4,"./controller/createStand":5,"./controller/highScores":6,"./controller/standInfo":7,"./controller/supplies":8,"./services/buy":9,"./services/createStand":10,"./services/highScores":11,"./services/supplies":12,"./services/weather":13}],2:[function(require,module,exports){
+
+},{"./components/createStand":2,"./components/highScores":3,"./components/standInfo":4,"./controller/createStand":5,"./controller/highScores":6,"./controller/standInfo":7,"./controller/supplies":8,"./routers":9,"./services/buy":10,"./services/createStand":11,"./services/highScores":12,"./services/supplies":13,"./services/weather":14}],2:[function(require,module,exports){
 module.exports = {
 name: 'createStand',
 object: {
@@ -116,10 +100,10 @@ module.exports = {
 module.exports = {
     name: 'StandInfoController',
     func: function ($scope, CreateStandService, SuppliesService, WeatherService, $interval, BuyService) {
-
+// weather 
     $scope.sun = WeatherService.getWeather();
     let temp = $scope.sun;
-
+// create stand
     let standIdNumber = CreateStandService.getId();
     SuppliesService.newId(standIdNumber);
     console.log(`calling buy service ${standIdNumber}`)
@@ -128,12 +112,8 @@ module.exports = {
     $scope.id = SuppliesService.newId(standIdNumber);
 
     $scope.stats = SuppliesService.showStats();
-    $scope.newStats = SuppliesService.updateStats();
+    $scope.new = SuppliesService.updateStats();
     $interval( function () {
-        console.log('autoupdate:')
-        console.log($scope.newStats);
-        console.log(SuppliesService.updateStats());
-        console.log('end autoupdate');
         SuppliesService.updateStats()}, 15000);;
 
     $scope.buyStuff = function (name, num) {
@@ -160,6 +140,36 @@ module.exports = {
         },
 };
 },{}],9:[function(require,module,exports){
+module.exports = [
+
+
+    {
+        name: 'create-stand',
+        url: '/createstand',
+        component: 'createStand',
+    },
+
+    {
+        name: 'stand-info',
+        url: '/stand-info',
+        component: 'standInfo',
+    },
+
+    {
+        name: 'high-score',
+        url: '/high-score',
+        component: 'highScore',
+    },
+
+    {
+        name: 'supplies',
+        url: '/supplies',
+        component: 'supplies',
+    },
+
+
+]
+},{}],10:[function(require,module,exports){
 module.exports = {
     name: 'BuyService',
     func: function ($http) {
@@ -200,7 +210,7 @@ module.exports = {
         }
     },
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
     name: 'CreateStandService',
     func: function ($http) {
@@ -215,14 +225,14 @@ module.exports = {
                 })
             },
             getId: function () {
-                return '5fdb549f-9143-43b4-ad72-ae890c7ff389';
+                return '74256647-704e-45a4-86a8-4aa015cad422';
                 //return standIdentification;
             },
         }
 
     },
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = {
     name: 'HighScoresService',
     func: function ($http) {
@@ -239,11 +249,13 @@ module.exports = {
     }
 
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = {
     name: 'SuppliesService',
     func: function ($http) {
         let statsUp = [];
+        let business = [];
+        let ingredients = [];
         let standId = null; 
         
         return {
@@ -259,11 +271,13 @@ module.exports = {
                         add: 0,
                     })
                     .then(function (response) {
-                    statsUp = response.data;
+                    angular.copy(response.data, statsUp);
+                    angular.copy(response.data.business, business);
+                    angular.copy(response.ingredients, ingredients );
                     console.log(`data update:`);
-                    console.log(statsUp);
+                    console.log(business);
                     console.log('end of data update');
-                    //return statsUp;
+                    return statsUp;
                     });
                  
                 
@@ -278,7 +292,7 @@ module.exports = {
         }
     },
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = {
     name: 'WeatherService',
     func: function ($http) {

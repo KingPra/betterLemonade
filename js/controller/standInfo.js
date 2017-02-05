@@ -1,10 +1,10 @@
 module.exports = {
     name: 'StandInfoController',
     func: function ($scope, CreateStandService, SuppliesService, WeatherService, $interval, BuyService) {
-
+// weather 
     $scope.sun = WeatherService.getWeather();
     let temp = $scope.sun;
-
+// create stand
     let standIdNumber = CreateStandService.getId();
     SuppliesService.newId(standIdNumber);
     console.log(`calling buy service ${standIdNumber}`)
@@ -13,12 +13,8 @@ module.exports = {
     $scope.id = SuppliesService.newId(standIdNumber);
 
     $scope.stats = SuppliesService.showStats();
-    $scope.newStats = SuppliesService.updateStats();
+    $scope.new = SuppliesService.updateStats();
     $interval( function () {
-        console.log('autoupdate:')
-        console.log($scope.newStats);
-        console.log(SuppliesService.updateStats());
-        console.log('end autoupdate');
         SuppliesService.updateStats()}, 15000);;
 
     $scope.buyStuff = function (name, num) {
