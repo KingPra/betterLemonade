@@ -1,16 +1,34 @@
 module.exports = {
     name: 'StandInfoController',
-    func: function ($scope, CreateStandService, SuppliesService, WeatherService) {
-    let stand = CreateStandService.getId();
-    $scope.stats = SuppliesService.showStats();
+    func: function ($scope, CreateStandService, SuppliesService, WeatherService, $interval, BuyService) {
+
     $scope.sun = WeatherService.getWeather();
     let temp = $scope.sun;
-    console.log(`stand info controller should print stat array:`);
-    console.log(temp);
-    console.log($scope.stats);
-    SuppliesService.newId(stand);
-    console.log('info controller kicked in');
-    console.log(stand);
+
+    let standIdNumber = CreateStandService.getId();
+    SuppliesService.newId(standIdNumber);
+    console.log(`calling buy service ${standIdNumber}`)
+    BuyService.sendId(standIdNumber);
+
+    $scope.id = SuppliesService.newId(standIdNumber);
+
+    $scope.stats = SuppliesService.showStats();
+    $scope.newStats = SuppliesService.updateStats();
+    $interval( function () {
+        console.log('autoupdate:')
+        console.log($scope.newStats);
+        console.log(SuppliesService.updateStats());
+        console.log('end autoupdate');
+        SuppliesService.updateStats()}, 15000);;
+
+    $scope.buyStuff = function (name, num) {
+        console.log(name, num);
+        BuyService.buyMoreStuff(name, num);
+    };
+    $scope.setPrice = function (cost) {
+        BuyService.cupPrice(cost);
+    };
+
     }
 
 };

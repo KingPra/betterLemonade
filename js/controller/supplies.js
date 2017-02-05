@@ -4,7 +4,8 @@ module.exports = {
         console.log('we need all the lemons!');
         $scope.cost = 0;
         $scope.setPrice = function (cost) {
-        console.log(`${cost} per cup`);
-        }
-    },
+            console.log('set cost was clicked')
+            console.log(`${cost} per cup`);
+            }
+        },
 };

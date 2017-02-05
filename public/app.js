@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 const app = angular.module('Lemonade', ['ui.router']);
-
+//  importing controllers
  const controllers = [
     require('./controller/createStand'),
     require('./controller/standInfo'),
@@ -12,8 +12,7 @@ for (let i = 0; i < controllers.length; i++) {
     app.controller(controllers[i].name, controllers[i].func)
 };
 
-
-
+/** importing components */
 const components = [
     require('./components/createStand'),
     require('./components/standInfo'),
@@ -24,20 +23,21 @@ for (let i = 0; i < components.length; i++) {
     app.component(components[i].name, components[i].object)
 };
 
-
+/** importing services */
 const services = [
     require('./services/createStand'),
     require('./services/highScores'),
     require('./services/supplies'),
     require('./services/weather'),
+    require('./services/buy'),
 ];
 
 for (let i = 0; i < services.length; i++) {
     app.factory(services[i].name, services[i].func)
 };
 
-let stand = null;
-console.log(`app config ${stand}`);
+/** routers */
+console.log(`app config `);
 app.config(function ($stateProvider) {
     $stateProvider.state({
         name: 'create-stand',
@@ -65,84 +65,8 @@ app.config(function ($stateProvider) {
 });
 
 
-// app.factory('CreateStandService', function ($http) {
-//     let stand = null;
-//     console.log('Create stand service making it rain');
-//     console.log(stand);
-//     return {
-//         newStand(name) {
-//             $http.post('http://blooming-hamlet-70507.herokuapp.com/stand', {
-//                 stand_name: name,
-//             }).then(function (response) {
-//                 stand = response.data.stand_id;
-//                 console.log(`newStand function Create Stand Service ${stand}`);
-//             })
-//         },
-//         getId: function () {
-//             return stand;
-//         },
-//     }
 
-// });
-
-// app.factory('SuppliesService', function ($http) {
-//  let stats = [];
-//  let standId = null;
-//  console.log('next 2 lines are from Supplies Service')
-//  console.log(stand);
-//  console.log(stats);
-//  $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/3ab885ae-91ef-4ea4-b400-e26e2c4c8ec3`)
-//  .then(function (response) {
-//      angular.copy(response.data, stats);
-
-//  });
-//  return{
-//      newId: function (id) {
-//         standId = id;
-//         console.log(`supplies service newID function running : ${id}`); 
-//      },
-//      showStats: function () {
-//          return stats;
-//      },
-//  }
-// });
-
-// app.factory('WeatherService', function ($http) {
-//     let weather = [];
-//     console.log(weather);
-//     $http.get(`https://blooming-hamlet-70507.herokuapp.com/weather/forecast`)
-//     .then(function (response) {
-//         angular.copy(response.data, weather);
-//     });
-//     return {
-//         getWeather: function () {
-//             return weather;
-//         },
-//     }
-// });
-
-// app.factory('HighScoresService', function ($http) {
-//     let scores = [];
-//     $http.get('https://blooming-hamlet-70507.herokuapp.com/stand/top')
-//     .then(function (response) {
-//       angular.copy(response.data, scores);
-//   });
-//     return {
-//         getScores: function (something) {
-//             return scores;
-//         },
-//     }
-// });
-
-// app.factory('BuyService', function ($http) {
-//     let supplies = [];
-//     $http.post('https://blooming-hamlet-70507.herokuapp.com/stand/update?id=51eb84f6-df8b-4e40-9b74-1fce5f06e1d4', {
-        
-//     }).then
-// })
-
-
-},{"./components/createStand":2,"./components/highScores":3,"./components/standInfo":4,"./controller/createStand":5,"./controller/highScores":6,"./controller/standInfo":7,"./controller/supplies":8,"./services/createStand":9,"./services/highScores":10,"./services/supplies":11,"./services/weather":12}],2:[function(require,module,exports){
+},{"./components/createStand":2,"./components/highScores":3,"./components/standInfo":4,"./controller/createStand":5,"./controller/highScores":6,"./controller/standInfo":7,"./controller/supplies":8,"./services/buy":9,"./services/createStand":10,"./services/highScores":11,"./services/supplies":12,"./services/weather":13}],2:[function(require,module,exports){
 module.exports = {
 name: 'createStand',
 object: {
@@ -160,20 +84,20 @@ object: {
 };
 },{}],4:[function(require,module,exports){
 module.exports = {
-name: 'standInfo',
-object: {
-    controller: 'StandInfoController', 
-    templateUrl: 'templates/stand-info.html',
-    },
+    name: 'standInfo',
+    object: {
+        controller: 'StandInfoController', 
+        templateUrl: 'templates/stand-info.html',
+        },
 };
 },{}],5:[function(require,module,exports){
 module.exports = {
     name: 'CreateStandController',
     func: function ($scope, CreateStandService) {
     $scope.name = '';
-    $scope.startGame = function () {
+    $scope.startGame = () => {
+        // passes the value of the input box as a parameter of newStand func
         CreateStandService.newStand($scope.name);
-        console.log(`createStand controller hard at work ${$scope.name}`);
         }
     }
 };
@@ -191,17 +115,35 @@ module.exports = {
 },{}],7:[function(require,module,exports){
 module.exports = {
     name: 'StandInfoController',
-    func: function ($scope, CreateStandService, SuppliesService, WeatherService) {
-    let stand = CreateStandService.getId();
-    $scope.stats = SuppliesService.showStats();
+    func: function ($scope, CreateStandService, SuppliesService, WeatherService, $interval, BuyService) {
+
     $scope.sun = WeatherService.getWeather();
     let temp = $scope.sun;
-    console.log(`stand info controller should print stat array:`);
-    console.log(temp);
-    console.log($scope.stats);
-    SuppliesService.newId(stand);
-    console.log('info controller kicked in');
-    console.log(stand);
+
+    let standIdNumber = CreateStandService.getId();
+    SuppliesService.newId(standIdNumber);
+    console.log(`calling buy service ${standIdNumber}`)
+    BuyService.sendId(standIdNumber);
+
+    $scope.id = SuppliesService.newId(standIdNumber);
+
+    $scope.stats = SuppliesService.showStats();
+    $scope.newStats = SuppliesService.updateStats();
+    $interval( function () {
+        console.log('autoupdate:')
+        console.log($scope.newStats);
+        console.log(SuppliesService.updateStats());
+        console.log('end autoupdate');
+        SuppliesService.updateStats()}, 15000);;
+
+    $scope.buyStuff = function (name, num) {
+        console.log(name, num);
+        BuyService.buyMoreStuff(name, num);
+    };
+    $scope.setPrice = function (cost) {
+        BuyService.cupPrice(cost);
+    };
+
     }
 
 };
@@ -212,34 +154,75 @@ module.exports = {
         console.log('we need all the lemons!');
         $scope.cost = 0;
         $scope.setPrice = function (cost) {
-        console.log(`${cost} per cup`);
-        }
-    },
+            console.log('set cost was clicked')
+            console.log(`${cost} per cup`);
+            }
+        },
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
+    name: 'BuyService',
+    func: function ($http) {
+        let stats = [];
+        let standId = null;
+        console.log('Buy Service')
+        return {
+
+            sendId: function (id) {
+                standId = id;
+                console.log(`send id func : ${standId}`);
+            },
+
+            buyMoreStuff: function (name, num) {
+                console.log(`one of the buy buttons was clicked so here I am ${standId}...buy ${num} of name:${name}`)
+                $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
+            // currently fixed property.
+            property: `${name}`,
+            add: num,
+            }).then(function (response) {
+                angular.copy(response.data, stats);
+                console.log(`stats from buyMoreStuff func: ${stats}`);
+                });
+            },
+
+            cupPrice: function (cost) {
+                console.log(`set price of cups ${standId}...buy ${cost}`)
+                $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
+            // currently fixed property.
+            property: `business.price`,
+            set: cost,
+            }).then(function (response) {
+                angular.copy(response.data, stats);
+                console.log(`stats from buyMoreStuff func: ${stats}`);
+                });
+            },
+
+        }
+    },
+};
+},{}],10:[function(require,module,exports){
+module.exports = {
     name: 'CreateStandService',
     func: function ($http) {
-        let stand = null;
-        console.log('Create stand service making it rain');
-        console.log(stand);
+        let standIdentification = null;
+        //const standIdentification = 'a5d184b4-63ec-47b1-910d-09aae5415801';
         return {
             newStand(name) {
                 $http.post('http://blooming-hamlet-70507.herokuapp.com/stand', {
                     stand_name: name,
                 }).then(function (response) {
-                    stand = response.data.stand_id;
-                    console.log(`newStand function Create Stand Service ${stand}`);
+                    standIdentification = response.data.stand_id;
                 })
             },
             getId: function () {
-                return stand;
+                return '5fdb549f-9143-43b4-ad72-ae890c7ff389';
+                //return standIdentification;
             },
         }
 
-    }
+    },
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
     name: 'HighScoresService',
     func: function ($http) {
@@ -256,32 +239,46 @@ module.exports = {
     }
 
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = {
     name: 'SuppliesService',
     func: function ($http) {
-        let stats = [];
-        let standId = null;
-        console.log('next 2 lines are from Supplies Service')
-        console.log(standId);
-        console.log(stats);
-        $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/3ab885ae-91ef-4ea4-b400-e26e2c4c8ec3`)
-            .then(function (response) {
-                angular.copy(response.data, stats);
-
-            });
+        let statsUp = [];
+        let standId = null; 
+        
         return {
             newId: function (id) {
-                standId = id;
-                console.log(`supplies service newID function running : ${id}`);
+                 standId = id;
+                 return standId;
             },
-            showStats: function () {
-                return stats;
+
+            updateStats: function () {
+                //currently hard coded for testing. need to change back to standId
+                    $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`,{
+                        property: 'ice',
+                        add: 0,
+                    })
+                    .then(function (response) {
+                    statsUp = response.data;
+                    console.log(`data update:`);
+                    console.log(statsUp);
+                    console.log('end of data update');
+                    //return statsUp;
+                    });
+                 
+                
             },
+
+                showStats: function () {
+                    console.log(` show stats function here:`);
+                    console.log(statsUp);
+                    console.log('end of show stats function ');
+                    return statsUp;
+                },
         }
     },
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = {
     name: 'WeatherService',
     func: function ($http) {
