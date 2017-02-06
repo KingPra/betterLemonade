@@ -1275,8 +1275,17 @@ ul {
   list-style: none; }
 
 .infoView {
+  width: 50%;
+  float: left;
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
   text-align: center;
-  width: 250px;
   height: 170px;
   border: 1px solid black;
-  display: inline-block; }
+  display: block; }
+  @media print, screen and (min-width: 40em) {
+    .infoView {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+  .infoView:last-child:not(:first-child) {
+    float: right; }

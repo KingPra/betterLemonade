@@ -111,10 +111,14 @@ module.exports = {
 
     $scope.id = SuppliesService.newId(standIdNumber);
 
+    $scope.ingreds = SuppliesService.showIngredients();
     $scope.stats = SuppliesService.showStats();
     $scope.new = SuppliesService.updateStats();
     $interval( function () {
         SuppliesService.updateStats()}, 15000);;
+    $scope.update = () => {
+        SuppliesService.updateStats();
+    };
 
     $scope.buyStuff = function (name, num) {
         console.log(name, num);
@@ -186,24 +190,23 @@ module.exports = {
             buyMoreStuff: function (name, num) {
                 console.log(`one of the buy buttons was clicked so here I am ${standId}...buy ${num} of name:${name}`)
                 $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
-            // currently fixed property.
-            property: `${name}`,
-            add: num,
-            }).then(function (response) {
-                angular.copy(response.data, stats);
-                console.log(`stats from buyMoreStuff func: ${stats}`);
+                    property: `ingredients.${name}`,
+                    add: num,
+                }).then(function (response) {
+                    angular.copy(response.data, stats);
+                    console.log(`stats from buyMoreStuff func: ${stats}`);
+                    console.log(name, num);
                 });
             },
 
             cupPrice: function (cost) {
                 console.log(`set price of cups ${standId}...buy ${cost}`)
                 $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
-            // currently fixed property.
-            property: `business.price`,
-            set: cost,
-            }).then(function (response) {
-                angular.copy(response.data, stats);
-                console.log(`stats from buyMoreStuff func: ${stats}`);
+                    property: `business.price`,
+                    set: cost,
+                }).then(function (response) {
+                    angular.copy(response.data, stats);
+                    console.log(`stats from buyMoreStuff func: ${stats}`);
                 });
             },
 
@@ -225,7 +228,7 @@ module.exports = {
                 })
             },
             getId: function () {
-                return '74256647-704e-45a4-86a8-4aa015cad422';
+                return '36e8e745-fc10-4874-8816-53939d1a36a1';
                 //return standIdentification;
             },
         }
@@ -253,42 +256,47 @@ module.exports = {
 module.exports = {
     name: 'SuppliesService',
     func: function ($http) {
-        let statsUp = [];
-        let business = [];
-        let ingredients = [];
-        let standId = null; 
-        
+        const statsUp = [];
+        const ingredients = [];
+        let standId = null;
+
         return {
             newId: function (id) {
-                 standId = id;
-                 return standId;
+                standId = id;
+                return standId;
             },
 
             updateStats: function () {
                 //currently hard coded for testing. need to change back to standId
-                    $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`,{
-                        property: 'ice',
-                        add: 0,
-                    })
+                $http.get(`https://blooming-hamlet-70507.herokuapp.com/stand/${standId}`, {
+                    // $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`,{
+                    //     property: 'ice',
+                    //     add: 0,
+                })
                     .then(function (response) {
-                    angular.copy(response.data, statsUp);
-                    angular.copy(response.data.business, business);
-                    angular.copy(response.ingredients, ingredients );
-                    console.log(`data update:`);
-                    console.log(business);
-                    console.log('end of data update');
-                    return statsUp;
+                        angular.copy(response.data, statsUp);
+                        angular.copy(response.data.ingredients, ingredients);
+                        console.log(`data update:`);
+                        console.log(ingredients);
+                        console.log('end of data update');
+                        return statsUp;
                     });
-                 
-                
+
+
             },
 
-                showStats: function () {
-                    console.log(` show stats function here:`);
-                    console.log(statsUp);
-                    console.log('end of show stats function ');
-                    return statsUp;
-                },
+            showStats: function () {
+                console.log(` show stats function here:`);
+                console.log(statsUp);
+                console.log('end of show stats function ');
+                return statsUp;
+            },
+
+            showIngredients: () => {
+                return ingredients;
+            },
+
+
         }
     },
 };

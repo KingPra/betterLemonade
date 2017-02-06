@@ -1,70 +1,42 @@
 <section>
-    <p>getting stats: {{ newStats}}</p>
-    <h1>manage stand</h1>
+    <h1>Manage {{ stats.name }}</h1>
     <ul>
+
         <li class="infoView">
-            <h1>BBB rating: </h1>
-            <p>{{ stats.business.rating }}</p>
-            <p>{{ dataRenew.business.rating }} </p>
+            <h2>Day:</h2>
+            <h2>{{ stats.day }}</h2>
         </li>
         <li class="infoView">
-            <h1>Days</h1>
-            <p>{{ stats.day }}</p>
+            <h2>open/closed</h2>
+            <h2>{{ stats.in_business }}</h2>
         </li>
         <li class="infoView">
-            <h1>open/closed</h1>
-            <p>{{ stats.name }} in business: {{ stats.in_business }}</p>
+            <h2>Yesterday's Stats</h2>
+            <h2>Visitors/ Cups Sold</h2>
+            <h2>{{ stats.business.yesterday_visitors }} / {{ stats.business.yesterday_cups_sold }}</h2>
         </li>
         <li class="infoView">
-            <h1>Funds</h1>
-            <p>{{ stats.business.balance | currency }}</p>
+            <h2>Tommorows Forecast:</h2>
+            <h2> {{ sun.condition }} at {{ sun.temperature | number:0 }}F</h2>
         </li>
         <li class="infoView">
-            <h1>Cost of Lemonade:</h1>
-            <p>{{ stats.business.price | currency }}</p>
+            <h2>Funds:</h2>
+            <h2>{{ stats.business.balance | currency }}</h2>
         </li>
         <li class="infoView">
-            <h1>Visitors/ Cups Sold</h1>
-            <p>{{ stats.business.yesterday_visitors }} / {{ stats.business.yesterday_cups_sold }}</p>
-        </li>
-        <li class="infoView">
-            <h1>Tomorrow's weather</h1>
-            <p>{{ sun.condition }} {{ sun.temperature }}</p>
+            <h2>Cost of Lemonade: {{ stats.business.price | currency }}</h2>
+            <input ng-model="cost" type="number" placeholder="how much per cup?">
+            <button ng-click="setPrice(cost); update(); cost = '' ">Set Price</button>
         </li>
     </ul>
 </section>
 <!--</section> c&p from supplies.html-->
 <section>
     <ul>
-        <p>outside of ng-repeat: {{ stats.ingredients }}</p>
-        <!--<li class="infoView" ng-repeat="work in stats">
-                    <p>{{ work.name }}</p>
-                    <p>{{ work.business }}</p>
-                    <p>{{ work.ingredients.cups}}</p>
-                    <p>{{ work}}</p>
-                </li>
-            <li>
-                <h1>{{ stat.ingredients.label }}</h1>
-                <p>{{ stat.ingredients.value }}</p>
-                <button>Buy Lemon</button>
-            </li>-->
-        <li>
-            <input ng-model="cost" type="text" placeholder="how much per cup?">
-            <button ng-click="setPrice(cost)">Set Price</button>
-        </li>
-        <li class="infoView">
-            <h1>{{ stats.ingredients[0].label }}</h1>
-            <p>{{ stats.ingredients[0].value }}</p>
-            <select ng-model="name" name="lemons" id="lemons">
-                <option value="ingredients.lemons">lemons</option>
-                <option value="ingredients.cups">cups</option>
-                <option value="ingredients.sugar">sugar</option>
-                <option value="ingredients.ice">ice</option>
-            </select>
-            <input ng-model="num" type="number" placeholder="how many">
-            <button ng-click="buyStuff(name, num)">Buy {{ stats.ingredients[0].label }}</button>
-
-            <p> {{stats.ingredients}}</p>
+        <li class="infoView" ng-repeat="stat in ingreds">
+            <h1>{{ stat.label }}: {{ stat.value }}</h1>
+            <input ng-model="num" type="number" placeholder="how many {{ stat.label }}"/>
+            <button ng-click="buyStuff(stat.label, num); update(); num = '' ">Buy</button>
         </li>
     </ul>
 </section>

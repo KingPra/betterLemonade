@@ -21,9 +21,9 @@ ul {
 }
 
 .infoView {
+    @include grid-column(6);
     text-align: center;
-    width: 250px;
     height: 170px;
     border: 1px solid black;
-    display: inline-block;
+    display: block;
 }

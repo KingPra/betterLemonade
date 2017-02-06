@@ -14,24 +14,23 @@ module.exports = {
             buyMoreStuff: function (name, num) {
                 console.log(`one of the buy buttons was clicked so here I am ${standId}...buy ${num} of name:${name}`)
                 $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
-            // currently fixed property.
-            property: `${name}`,
-            add: num,
-            }).then(function (response) {
-                angular.copy(response.data, stats);
-                console.log(`stats from buyMoreStuff func: ${stats}`);
+                    property: `ingredients.${name}`,
+                    add: num,
+                }).then(function (response) {
+                    angular.copy(response.data, stats);
+                    console.log(`stats from buyMoreStuff func: ${stats}`);
+                    console.log(name, num);
                 });
             },
 
             cupPrice: function (cost) {
                 console.log(`set price of cups ${standId}...buy ${cost}`)
                 $http.post(`https://blooming-hamlet-70507.herokuapp.com/stand/update?id=${standId}`, {
-            // currently fixed property.
-            property: `business.price`,
-            set: cost,
-            }).then(function (response) {
-                angular.copy(response.data, stats);
-                console.log(`stats from buyMoreStuff func: ${stats}`);
+                    property: `business.price`,
+                    set: cost,
+                }).then(function (response) {
+                    angular.copy(response.data, stats);
+                    console.log(`stats from buyMoreStuff func: ${stats}`);
                 });
             },
 

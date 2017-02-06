@@ -12,10 +12,14 @@ module.exports = {
 
     $scope.id = SuppliesService.newId(standIdNumber);
 
+    $scope.ingreds = SuppliesService.showIngredients();
     $scope.stats = SuppliesService.showStats();
     $scope.new = SuppliesService.updateStats();
     $interval( function () {
         SuppliesService.updateStats()}, 15000);;
+    $scope.update = () => {
+        SuppliesService.updateStats();
+    };
 
     $scope.buyStuff = function (name, num) {
         console.log(name, num);
