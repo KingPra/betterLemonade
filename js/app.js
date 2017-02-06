@@ -1,11 +1,11 @@
 const app = angular.module('Lemonade', ['ui.router']);
 //  importing controllers
- const controllers = [
+const controllers = [
     require('./controller/createStand'),
     require('./controller/standInfo'),
     require('./controller/highScores'),
     require('./controller/supplies'),
- ];
+];
 
 for (let i = 0; i < controllers.length; i++) {
     app.controller(controllers[i].name, controllers[i].func)
@@ -39,7 +39,7 @@ for (let i = 0; i < services.length; i++) {
 
 
 const routers = require('./routers');
-
+// noah nugget
 app.config($stateProvider => {
     for (let i = 0; i < routers.length; i++) {
         $stateProvider.state(routers[i]);
