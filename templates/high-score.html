@@ -1,7 +1,8 @@
 <section>
-    <h1>High Scores</h1>
-    <ul ng-repeat="score in scores | orderBy: '-business.balance'">
-        <li>Name: {{ score.name }}</li> 
+    <h1>Top 10 High Scores</h1>
+    <ul ng-repeat="score in scores | orderBy: '-business.balance' |limitTo: 10">
+               
+        <li><h2>Name: </h2>{{ score.name }}</li> 
         <li>cashflow: {{score.business.balance | currency }}</li>
         <li>cups sold:{{ score.business.total_cups_sold }}</li>
     </ul>

@@ -45,6 +45,3 @@ app.config($stateProvider => {
         $stateProvider.state(routers[i]);
     }
 });
-
-
-

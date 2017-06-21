@@ -46,10 +46,6 @@ app.config($stateProvider => {
         $stateProvider.state(routers[i]);
     }
 });
-
-
-
-
 },{"./components/createStand":2,"./components/highScores":3,"./components/standInfo":4,"./controller/createStand":5,"./controller/highScores":6,"./controller/standInfo":7,"./controller/supplies":8,"./routers":9,"./services/buy":10,"./services/createStand":11,"./services/highScores":12,"./services/supplies":13,"./services/weather":14}],2:[function(require,module,exports){
 module.exports = {
 name: 'createStand',
@@ -164,6 +160,7 @@ module.exports = [
         url: '/supplies',
         component: 'supplies',
     },
+    
 
 
 ]
@@ -205,7 +202,6 @@ module.exports = {
     name: 'CreateStandService',
     func: function ($http) {
         let standIdentification = null;
-        //const standIdentification = 'a5d184b4-63ec-47b1-910d-09aae5415801';
         return {
             newStand(name) {
                 $http.post('http://blooming-hamlet-70507.herokuapp.com/stand', {
@@ -215,8 +211,7 @@ module.exports = {
                 })
             },
             getId: function () {
-                return '36e8e745-fc10-4874-8816-53939d1a36a1';
-                //return standIdentification;
+                return standIdentification;
             },
         }
 

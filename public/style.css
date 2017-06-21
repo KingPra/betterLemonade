@@ -1289,3 +1289,8 @@ ul {
       padding-left: 0.9375rem; } }
   .infoView:last-child:not(:first-child) {
     float: right; }
+
+.navBardemoBasicUsage md-content .ext-content {
+  padding: 50px;
+  margin: 20px;
+  background-color: #FFF2E0; }

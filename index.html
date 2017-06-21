@@ -1,17 +1,22 @@
 <!doctype html>
 <html>
-    <head>  
+    <head>
         <title>Lemonade</title>
         <!--add css file-->
         <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
-    <!-- plz copy this... -->
     <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
         <script src="app.js"></script>
     </head>
     <body ng-app="Lemonade">
-        <h1>Lemonade</h1>
-        <nav>
+
             <ul>
                 <li><a ui-sref="create-stand">New Game</a></li>
                 <li><a ui-sref="stand-info">Manage Stand</a></li>
@@ -20,5 +25,10 @@
         </nav>
         <!--create new stand section-->
         <ui-view></ui-view>
+
+
+        <footer>
+            <p>copyright 2017 Angry Lemons Corporation
+        </footer>
     </body>
 </html>

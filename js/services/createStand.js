@@ -2,7 +2,6 @@ module.exports = {
     name: 'CreateStandService',
     func: function ($http) {
         let standIdentification = null;
-        //const standIdentification = 'a5d184b4-63ec-47b1-910d-09aae5415801';
         return {
             newStand(name) {
                 $http.post('http://blooming-hamlet-70507.herokuapp.com/stand', {
@@ -12,8 +11,7 @@ module.exports = {
                 })
             },
             getId: function () {
-                return '36e8e745-fc10-4874-8816-53939d1a36a1';
-                //return standIdentification;
+                return standIdentification;
             },
         }
 
